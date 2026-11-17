@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        color-scheme: light;
+        scroll-padding-top: 5.5rem;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        html {
+            scroll-behavior: smooth;
+        }
+    }
+
+    html.dark {
+        color-scheme: dark;
+    }
+
+    body {
+        @apply bg-slate-50 text-slate-900 antialiased transition-colors duration-200 dark:bg-slate-950 dark:text-slate-100;
+    }
+
+    ::selection {
+        @apply bg-indigo-600/20 text-indigo-900 dark:bg-indigo-400/30 dark:text-indigo-100;
+    }
+}
+
+@layer components {
+    .kicker {
+        @apply font-mono text-[0.65rem] font-semibold uppercase tracking-[0.26em];
+    }
+
+    .paper-card {
+        @apply rounded-2xl border border-ink/10 bg-parchment-50 text-ink shadow-[0_24px_60px_-30px_rgba(11,16,32,0.55)];
+    }
+}
+
+/* Landing: masked headline */
+@keyframes landing-hero-rise {
+    from {
+        transform: translate3d(0, 110%, 0);
+    }
+
+    to {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.hero-mask {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+}
+
+.hero-mask > span {
+    display: block;
+    transform: translate3d(0, 110%, 0);
+    animation: landing-hero-rise 1.05s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Landing: the window opens */
+@keyframes landing-window-open {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 26px, 0) scale(0.955);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+}
+
+.window-open {
+    animation: landing-window-open 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+/* Landing: gentle float for the cards over the window */
+@keyframes landing-float {
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(0, -10px, 0);
+    }
+}
+
+.float-slow {
+    animation: landing-float 9s ease-in-out infinite;
+}
+
+.float-slower {
+    animation: landing-float 13s ease-in-out infinite reverse;
+}
+
+/* Landing: marquee */
+@keyframes landing-marquee {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+.marquee-track {
+    display: flex;
+    width: max-content;
+    animation: landing-marquee 46s linear infinite;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+    animation-play-state: paused;
+}
+
+/* Landing: scroll reveal */
+.reveal-up {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-up.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Landing: manifesto lights up word by word */
+.manifesto-word {
+    display: inline-block;
+    margin-right: 0.24em;
+    opacity: 0.16;
+    transition: opacity 0.65s ease;
+}
+
+.manifesto.is-visible .manifesto-word {
+    opacity: 1;
+}
+
+/* Landing: small transitions */
+@keyframes landing-preview-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.preview-enter {
+    animation: landing-preview-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes landing-sheet-in {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -12px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.landing-sheet {
+    animation: landing-sheet-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Landing: film grain over the photographs */
+.landing-grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
+}
+
+/* Landing: the night sky */
+.landing-stars {
+    background-image:
+        radial-gradient(1.6px 1.6px at 12% 22%, rgba(255, 255, 255, 0.9), transparent 60%),
+        radial-gradient(1.2px 1.2px at 28% 12%, rgba(255, 255, 255, 0.7), transparent 60%),
+        radial-gradient(1.8px 1.8px at 42% 28%, rgba(255, 255, 255, 0.8), transparent 60%),
+        radial-gradient(1.1px 1.1px at 58% 14%, rgba(255, 255, 255, 0.65), transparent 60%),
+        radial-gradient(1.4px 1.4px at 71% 24%, rgba(255, 255, 255, 0.85), transparent 60%),
+        radial-gradient(1.2px 1.2px at 84% 10%, rgba(255, 255, 255, 0.7), transparent 60%),
+        radial-gradient(1.5px 1.5px at 92% 32%, rgba(255, 255, 255, 0.75), transparent 60%),
+        radial-gradient(1.1px 1.1px at 18% 44%, rgba(255, 255, 255, 0.55), transparent 60%),
+        radial-gradient(1.3px 1.3px at 36% 52%, rgba(255, 255, 255, 0.6), transparent 60%),
+        radial-gradient(1.2px 1.2px at 64% 46%, rgba(255, 255, 255, 0.55), transparent 60%),
+        radial-gradient(1.5px 1.5px at 78% 58%, rgba(255, 255, 255, 0.5), transparent 60%),
+        radial-gradient(1.1px 1.1px at 88% 48%, rgba(255, 255, 255, 0.6), transparent 60%),
+        radial-gradient(1.4px 1.4px at 8% 62%, rgba(255, 255, 255, 0.45), transparent 60%),
+        radial-gradient(1.2px 1.2px at 48% 68%, rgba(255, 255, 255, 0.45), transparent 60%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-mask > span,
+    .window-open,
+    .float-slow,
+    .float-slower,
+    .preview-enter,
+    .landing-sheet {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .marquee-track {
+        animation: none !important;
+        transform: none !important;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .marquee-duplicate {
+        display: none;
+    }
+
+    .reveal-up,
+    .manifesto-word {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
